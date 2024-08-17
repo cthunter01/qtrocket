@@ -1,12 +1,23 @@
-#include "MainWindow.h"
-
+/// \cond
+// C Headers
+// C++ Headers
+#include <functional>
+#include <utility>
+// 3rd party headers
 #include <QApplication>
 #include <QLocale>
 #include <QTranslator>
+/// \endcond
+
+#include "MainWindow.h"
+#include "Logger.h"
+#include "RK4Solver.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    auto* logger = Logger::getInstance();
+    logger->setLogLevel(Logger::LogLevel::PERF);
 
     QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();
@@ -17,7 +28,20 @@ int main(int argc, char *argv[])
             break;
         }
     }
+    logger->debug("Starting MainWindow");
     MainWindow w;
+
+
+
     w.show();
     return a.exec();
+}
+
+void test_RK4()
+{
+
+    auto ode = [](double& x, double& r) -> std::pair<double, double>
+    {
+
+    }
 }

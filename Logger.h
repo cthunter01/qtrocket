@@ -11,22 +11,19 @@
 // 3rd party headers
 /// \endcond
 
-namespace utils
-{
-
 /**
  * @todo write docs
  */
 class Logger
 {
 public:
-   enum LogLevel
+   enum class LogLevel
    {
-      ERROR_,
-      WARN_,
-      INFO_,
-      DEBUG_,
-      PERF_
+      ERROR,
+      WARN,
+      INFO,
+      DEBUG,
+      PERF
    };
 
    static Logger* getInstance();
@@ -39,11 +36,11 @@ public:
 
    void setLogLevel(const LogLevel& lvl);
    
-   inline void error(std::string_view msg) { log(msg, ERROR_); }
-   inline void warn(std::string_view msg)  { log(msg, WARN_); }
-   inline void info(std::string_view msg)  { log(msg, INFO_); }
-   inline void debug(std::string_view msg) { log(msg, DEBUG_); }
-   inline void perf(std::string_view msg) { log(msg, PERF_); }
+   inline void error(std::string_view msg) { log(msg, LogLevel::ERROR); }
+   inline void warn(std::string_view msg)  { log(msg, LogLevel::WARN); }
+   inline void info(std::string_view msg)  { log(msg, LogLevel::INFO); }
+   inline void debug(std::string_view msg) { log(msg, LogLevel::DEBUG); }
+   inline void perf(std::string_view msg) { log(msg,  LogLevel::PERF); }
 
    void log(std::ostream& o, const std::string& msg);
 
@@ -58,5 +55,4 @@ private:
    Logger();
 };
 
-} // namespace utils
 #endif // UTILS_LOGGER_H
