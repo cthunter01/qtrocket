@@ -1,27 +1,47 @@
 /// \cond
-// C headers
-// C++ headers
+// C Headers
+// C++ Headers
+#include <functional>
+#include <utility>
 // 3rd party headers
+#include <QApplication>
+#include <QLocale>
+#include <QTranslator>
 /// \endcond
 
-#include "QtRocket.h"
-#include "utils/Logger.h"
+#include "MainWindow.h"
+#include "Logger.h"
+#include "RK4Solver.h"
 
 int main(int argc, char *argv[])
 {
+    QApplication a(argc, argv);
+    auto* logger = Logger::getInstance();
+    logger->setLogLevel(Logger::LogLevel::PERF);
 
-   // Instantiate logger
-   utils::Logger* logger = utils::Logger::getInstance();
-   logger->setLogLevel(utils::Logger::PERF_);
-   logger->info("Logger instantiated at PERF level");
-   // instantiate QtRocket
-   logger->debug("Starting QtRocket");
-   QtRocket* qtrocket = QtRocket::getInstance();
+    QTranslator translator;
+    const QStringList uiLanguages = QLocale::system().uiLanguages();
+    for (const QString &locale : uiLanguages) {
+        const QString baseName = "untitled_" + QLocale(locale).name();
+        if (translator.load(":/i18n/" + baseName)) {
+            a.installTranslator(&translator);
+            break;
+        }
+    }
+    logger->debug("Starting MainWindow");
+    MainWindow w;
 
-   // Run QtRocket. This'll start the GUI thread and block until the user
-   // exits the program
-   logger->debug("QtRocket->run()");
-   int retVal = qtrocket->run(argc, argv);
-   logger->debug("Returning");
-   return retVal;
+
+
+    w.show();
+    return a.exec();
+}
+
+void test_RK4()
+{
+
+    auto ode = [](double& x, double& r) -> std::pair<double, double>
+    {
+
+    }
 }
