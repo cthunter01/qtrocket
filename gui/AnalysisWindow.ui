@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AnalysisWindow</class>
+ <widget class="QDialog" name="AnalysisWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>989</width>
+    <height>821</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QCustomPlot" name="plotWidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>149</x>
+     <y>29</y>
+     <width>831</width>
+     <height>541</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="plotAltitudeBtn">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>50</y>
+     <width>121</width>
+     <height>36</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Plot Altitude</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="plotVelocityBtn">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>110</y>
+     <width>121</width>
+     <height>36</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Plot Velocity</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="plotAtmosphereBtn">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>170</y>
+     <width>121</width>
+     <height>36</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Plot Atmosphere</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="plotMotorCurveBtn">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>230</y>
+     <width>121</width>
+     <height>36</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Motor Curve</string>
+   </property>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QCustomPlot</class>
+   <extends>QWidget</extends>
+   <header>gui/qcustomplot.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+ <slots>
+  <slot>plotAltitude()</slot>
+ </slots>
+</ui>

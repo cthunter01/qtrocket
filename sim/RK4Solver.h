@@ -12,7 +12,11 @@
 /// \endcond
 
 // qtrocket headers
-#include "Logger.h"
+#include "sim/DESolver.h"
+#include "utils/Logger.h"
+#include "utils/math/MathTypes.h"
+
+namespace sim {
 
 /**
  * @brief Runge-Kutta 4th order coupled ODE solver.
@@ -24,28 +28,31 @@
  * @tparam Ts 
  */
 template<typename T>
-class RK4Solver
+class RK4Solver : public DESolver<T>
 {
 public:
 
-   RK4Solver(std::function<std::pair<T, T>(T&, T&)> func, double ts=0.1)
+   RK4Solver(std::function<std::pair<T, T>(T&, T&)> func)
    {
-//      static_assert(std::is_same<T, Vector3>::value,
-//                    "You can only use Vector3 or Quaternion valued functions in RK4Solver");
+      // This only works for Eigen Vector types.
+      // TODO: Figure out how to make this slightly more generic, but for now
+      // we're only using this for Vector3 and Quaternion types
+      static_assert(std::is_same<T, Vector3>::value
+                    || std::is_same<T, Quaternion>::value,
+                    "You can only use Vector3 or Quaternion valued functions in RK4Solver");
       
       odes = func;
-      setTimeStep(ts);
    }
-   ~RK4Solver() {}
+   virtual ~RK4Solver() {}
 
-   void setTimeStep(double inTs) { dt = inTs;  halfDT = dt / 2.0; }
+   void setTimeStep(double inTs) override { dt = inTs;  halfDT = dt / 2.0; }
 
-   std::pair<T, T> step(T& state, T& rate)
+   std::pair<T, T> step(T& state, T& rate) override
    {
       std::pair<T, T> res;
       if(dt == std::numeric_limits<double>::quiet_NaN())
       {
-         Logger::getInstance()->error("Calling RK4Solver without setting dt first is an error");
+         utils::Logger::getInstance()->error("Calling RK4Solver without setting dt first is an error");
          return res;
       }
 
@@ -86,5 +93,7 @@ private:
    double halfDT = 0.0;
 
 };
+
+} // namespace sim
 
 #endif // SIM_RK4SOLVER_H
